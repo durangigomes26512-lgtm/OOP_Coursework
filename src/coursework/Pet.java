@@ -77,7 +77,7 @@ public class Pet {
 
     // General care instructions
     public String getCareInstructions() {
-        return "Provide food, clean water and regular health care.";
+    	return "Please give the pet food, clean water and take good care of it";
     }
 
     // Display pet information
