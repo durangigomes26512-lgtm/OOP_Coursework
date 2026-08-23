@@ -1,43 +1,29 @@
+package coursework;
 import java.time.LocalDate;
-
 public class AdoptionRecord {
-
     // Properties
-    private int recordID;
+    private String recordID;
     private Pet pet;
     private User adopter;
     private LocalDate date;
     private double feePaid;
 
     // Constructor
-    public AdoptionRecord(int recordID, Pet pet, User adopter, LocalDate date, double feePaid) {
+    public AdoptionRecord(String recordID, Pet pet, User adopter) {
         this.recordID = recordID;
         this.pet = pet;
         this.adopter = adopter;
-        this.date = date;
-        this.feePaid = feePaid;
+        this.date = LocalDate.now(); //date is set to current date when receipt is created
+        this.feePaid = pet.calculateAdoptionFee();
+        pet.setIsAdopted(true); //pet is marked as adopted when receipt is created
     }
 
     // Getters
-    public int getRecordID() {
-        return recordID;
-    }
-
-    public Pet getPet() {
-        return pet;
-    }
-
-    public User getAdopter() {
-        return adopter;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public double getFeePaid() {
-        return feePaid;
-    }
+    public String getRecordID() {return recordID;}
+    public Pet getPet() {return pet;}
+    public User getAdopter() {return adopter;}
+    public LocalDate getDate() {return date;}
+    public double getFeePaid() {return feePaid;}
 
     // Display Record Details / Receipt
     public void displayRecordDetails() {
