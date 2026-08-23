@@ -18,7 +18,7 @@ public class Cat extends Pet {
     }
 
     // Setters
-    public void setIndoorOnly(boolen indoorOnly) {
+    public void setIndoorOnly(boolean  indoorOnly) {
         this.indoorOnly = indoorOnly;
     }
 
