@@ -32,7 +32,7 @@ public abstract class Pet {
     public int getAge() {return age;}
     public char getGender() {return gender;}
     public String getHealthStatus() {return healthStatus;}
-    public boolean getAdoptionStatus() {return isAdopted;}
+    public boolean isAdopted() {return isAdopted;}
     public boolean isVaccinated() {return isVaccinated;}
 
     //below classes must be overridden by dog and cat class
