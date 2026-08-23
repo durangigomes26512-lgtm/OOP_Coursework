@@ -1,76 +1,44 @@
 package coursework;
-
 public class Cat extends Pet {
-
     // Attributes
     private boolean indoorOnly;
     private boolean litterTrained;
-
     // Parameterized Constructor
-    public Cat(String petID, String name, int age,
-               String gender, String healthStatus,
-               boolean indoorOnly, boolean litterTrained) {
-
-        super(petID, name, age, gender, healthStatus);
-
+    public Cat(String petID, String name, int age,char gender, String healthStatus,boolean isVaccinated,boolean indoorOnly, boolean litterTrained) {
+        super(petID,name,age,gender,healthStatus,isVaccinated);
         this.indoorOnly = indoorOnly;
         this.litterTrained = litterTrained;
     }
 
     // Setters
-    public void setIndoorOnly(boolean  indoorOnly) {
-        this.indoorOnly = indoorOnly;
-    }
-
-    public void setLitterTrained(boolean litterTrained) {
-        this.litterTrained = litterTrained;
-    }
-
+    public void setIndoorOnly(boolean  indoorOnly) {this.indoorOnly = indoorOnly;}
+    public void setLitterTrained(boolean litterTrained) {this.litterTrained = litterTrained;}
     // Getters
-    public boolean getIndoorOnly() {
-        return indoorOnly;
-    }
-
-    public boolean getLitterTrained() {
-        return litterTrained;
-    }
+    public boolean isIndoorOnly() {return indoorOnly;}
+    public boolean isLitterTrained() {return litterTrained;}
 
     // Overriding care instructions
     @Override
     public String getCareInstructions() {
-
-        if (indoorOnly && litterTrained) 
-        {
-            return "Keep strictly indoors. Clean litter box daily. " + "Provide fresh wet food.";
-            
+		String instructions ="Provide fresh wet food. ";
+        if (isIndoorOnly()) {
+            instructions+= "Keep strictly indoors. ";
         } 
-        else if (indoorOnly)
-        {
-            return "Keep strictly indoors. Provide fresh food and water.";
-        } 
-        else if (litterTrained) 
-        {
-            return "Clean litter box daily. Provide fresh food and water.";
-        } 
-        else 
-        {
-            return "Provide fresh food, water and proper care.";
+        if (isLitterTrained()){
+           instructions+="Clean litter box daily. ";
         }
+        if (!isLitterTrained() && !isIndoorOnly()) {
+        	instructions+="Provide proper care. ";
+        }
+        return instructions;
     }
 
     // Overriding adoption fee
     @Override
     public double calculateAdoptionFee() {
-        return 3000.00;
-    }
-
-    // Display Cat information
-    @Override
-    public void displayPetInfo() {
-
-        super.displayPetInfo();
-
-        System.out.println("Indoor Only: " + indoorOnly);
-        System.out.println("Litter Trained: " + litterTrained);
-    }
+		double fee=1000;
+		if (isVaccinated()) {fee+=1500;}
+		if (isLitterTrained()) {fee+=1200;}
+		return fee;
+	}
 }
