@@ -1,59 +1,48 @@
 package coursework;
-
 public class Dog extends Pet {
-
     // Attributes
     private String breed;
     private boolean leashTrained;
 
     // Parameterized Constructor
-    public Dog(String petID, String name, int age,
-               String gender, String healthStatus,
-               String breed, boolean leashTrained) {
-
-        super(petID, name, age, gender, healthStatus);
-
+    public Dog(String petID, String name, int age,char gender, String healthStatus,boolean isVaccinated, String breed, boolean leashTrained) {
+        super(petID, name, age, gender, healthStatus,isVaccinated);
         this.breed = breed;
         this.leashTrained = leashTrained;
     }
 
     // Setters
-    public void setBreed(String breed) {
-        this.breed = breed;
-    }
-
-    public void setLeashTrained(boolean leashTrained) {
-        this.leashTrained = leashTrained;
-    }
-
+    public void setBreed(String breed) {this.breed = breed;}
+    public void setLeashTrained(boolean leashTrained) {this.leashTrained = leashTrained;}
     // Getters
-    public String getBreed() {
-        return breed;
-    }
-
-    public boolean getLeashTrained() {
-        return leashTrained;
-    }
+    public String getBreed() {return breed;}
+    public boolean isLeashTrained() {return leashTrained;}
 
     // Overriding care instructions
     @Override
     public String getCareInstructions() {
-        return "Requires 2 daily walks. Outdoor exercise space.";
+		String instructions = "Daily walks required. Leash Trained: ";
+		if (isLeashTrained()) {
+		 instructions+="Yes";
+		}
+		else {
+			instructions+="No";
+		}
+		return instructions;	
     }
 
     // Overriding adoption fee
     @Override
     public double calculateAdoptionFee() {
-        return 2000.00;
-    }
-
-    // Display Dog information
-    @Override
-    public void displayPetInfo() {
-
-        super.displayPetInfo();
-
-        System.out.println("Breed: " + breed);
-        System.out.println("Leash Trained: " + leashTrained);
+		/*base fee to adopt = 1000, if pet is vaccinated / leash trained
+		 additional fee of 1500*/
+		double fee=1000;
+		if (isVaccinated()) {
+			fee+=1500;
+		}
+		if (isLeashTrained()){
+			fee+=1500;
+		}
+		return fee;
     }
 }
