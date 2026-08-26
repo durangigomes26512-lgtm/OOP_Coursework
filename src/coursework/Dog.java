@@ -52,7 +52,8 @@ public class Dog extends Pet {
 		{
 			fee+=1500;
 		}
-		if (isLeashTrained()){
+		if (isLeashTrained())
+		{
 			fee+=1500;
 		}
 		return fee;
