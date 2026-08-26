@@ -15,7 +15,7 @@ public class User {
 		this.password=password;
 	}
 	
-	//setters & getters
+	//Setters 
 	public void setUserID(String userID) {
 		this.userID=userID;
 	}
@@ -33,12 +33,23 @@ public class User {
 			throw new IllegalArgumentException("Invalid User Type. Must be either 'Adopter' or 'Rescuer'.");
 		}
 	}
-	
-	public String getUserID() {return userID;}
-	public String getName() {return name;}
-	public String getPhoneNumber() {return phoneNumber;}
-	public String getUserType() {return userType;}
-	public String getPassword() {return password;}
+
+	//Getters
+	public String getUserID() {
+		return userID;
+	}
+	public String getName() {
+		return name;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public String getUserType() {
+		return userType;
+	}
+	public String getPassword() {
+		return password;
+	}
 	
 	//display output
 	public void displayUserInfo() {
