@@ -12,20 +12,31 @@ public class Dog extends Pet {
     }
 
     // Setters
-    public void setBreed(String breed) {this.breed = breed;}
-    public void setLeashTrained(boolean leashTrained) {this.leashTrained = leashTrained;}
+    public void setBreed(String breed)
+	{
+		this.breed = breed;
+	}
+    public void setLeashTrained(boolean leashTrained) {
+		this.leashTrained = leashTrained;
+	}
     // Getters
-    public String getBreed() {return breed;}
-    public boolean isLeashTrained() {return leashTrained;}
+    public String getBreed() {
+		return breed;
+	}
+    public boolean isLeashTrained() {
+		return leashTrained;
+	}
 
     // Overriding care instructions
     @Override
     public String getCareInstructions() {
 		String instructions = "Daily walks required. Leash Trained: ";
-		if (isLeashTrained()) {
+		if (isLeashTrained()) 
+		{
 		 instructions+="Yes";
 		}
-		else {
+		else 
+		{
 			instructions+="No";
 		}
 		return instructions;	
@@ -37,7 +48,8 @@ public class Dog extends Pet {
 		/*base fee to adopt = 1000, if pet is vaccinated / leash trained
 		 additional fee of 1500*/
 		double fee=1000;
-		if (isVaccinated()) {
+		if (isVaccinated()) 
+		{
 			fee+=1500;
 		}
 		if (isLeashTrained()){
