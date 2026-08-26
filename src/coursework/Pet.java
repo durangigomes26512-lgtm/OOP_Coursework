@@ -22,44 +22,36 @@ public abstract class Pet {
 
     // Setters
 	//no setters for petID, name and gender bcz they usually stay the same
-	public void setAge(int age) 
-	{
+	public void setAge(int age) {
 		this.age=age;
 	}
-	public void setHealthStatus(String health) 
-	{
+	public void setHealthStatus(String health) {
 		this.healthStatus=health;
 	}
-	public void setIsAdopted(boolean isadopted)
-	{
+	public void setIsAdopted(boolean isadopted){
 		this.isAdopted=isadopted;
 	}
-	public void setIsVaccinated(boolean isvaccinated)
-	{
+	public void setIsVaccinated(boolean isvaccinated){
 		this.isVaccinated=isvaccinated;
 	}
+	
     // Getters
-    public String getPetID() 
-	{
+    public String getPetID() {
 		return petID;
 	}
-    public String getName()
-	{
+    public String getName(){
 		return name;
 	}
     public int getAge() {
 		return age;
 	}
-    public char getGender() 
-	{
+    public char getGender() {
 		return gender;
 	}
-    public String getHealthStatus() 
-	{
+    public String getHealthStatus() {
 		return healthStatus;
 	}
-    public boolean isAdopted() 
-	{
+    public boolean isAdopted() {
 		return isAdopted;
 	}
     public boolean isVaccinated() {
