@@ -46,12 +46,12 @@ public class Cat extends Pet {
     // Overriding adoption fee
     @Override
     public double calculateAdoptionFee() {
-		double fee=1000;
+		double fee=3000;
 		if (isVaccinated()) {
-			fee+=1500;
+			fee+=1800;
 		}
 		if (isLitterTrained()) {
-			fee+=1200;
+			fee+=2200;
 		}
 		return fee;
 	}
