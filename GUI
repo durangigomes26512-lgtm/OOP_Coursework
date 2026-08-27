@@ -1,0 +1,1088 @@
+package gui;
+
+import model.*;
+import service.ShelterManager;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+
+public class PetAdoptionGUI extends JFrame {
+
+    private ShelterManager manager;
+
+    private CardLayout cardLayout;
+    private JPanel mainPanel;
+
+    private User currentUser;
+    private Pet selectedPet;
+
+    private JTextArea petDetailsArea;
+
+    private int nextUserID = 1;
+    private int nextPetID = 100;
+
+    public PetAdoptionGUI(ShelterManager manager) {
+
+        this.manager = manager;
+
+        setTitle("Pet Care Management System");
+        setSize(900, 600);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        setLocationRelativeTo(null);
+
+        cardLayout = new CardLayout();
+
+        mainPanel = new JPanel(cardLayout);
+
+        mainPanel.add(createHomePanel(), "HOME");
+        mainPanel.add(createRegisterPanel(), "REGISTER");
+        mainPanel.add(createPetListPanel(), "PETS");
+        mainPanel.add(createPetDetailsPanel(), "DETAILS");
+        mainPanel.add(createPaymentPanel(), "PAYMENT");
+        mainPanel.add(createGivePetPanel(), "GIVEPET");
+        mainPanel.add(createRecordsPanel(), "RECORDS");
+
+        add(mainPanel);
+
+        cardLayout.show(mainPanel, "HOME");
+    }
+
+    // =====================================================
+    // HOME PAGE
+    // =====================================================
+
+    private JPanel createHomePanel() {
+
+        JPanel panel =
+                new JPanel(
+                        new BorderLayout()
+                );
+
+        JLabel title =
+                new JLabel(
+                        "PET CARE MANAGEMENT SYSTEM",
+                        SwingConstants.CENTER
+                );
+
+        title.setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        28
+                )
+        );
+
+        panel.add(
+                title,
+                BorderLayout.NORTH
+        );
+
+        JPanel buttonPanel =
+                new JPanel(
+                        new GridLayout(
+                                5,
+                                1,
+                                15,
+                                15
+                        )
+                );
+
+        buttonPanel.setBorder(
+                BorderFactory.createEmptyBorder(
+                        80,
+                        250,
+                        80,
+                        250
+                )
+        );
+
+        JButton registerButton =
+                new JButton("Register");
+
+        JButton browseButton =
+                new JButton("Browse Pets");
+
+        JButton givePetButton =
+                new JButton("Give Pet for Adoption");
+
+        JButton recordsButton =
+                new JButton("View Adoption Records");
+
+        JButton exitButton =
+                new JButton("Exit");
+
+        buttonPanel.add(registerButton);
+        buttonPanel.add(browseButton);
+        buttonPanel.add(givePetButton);
+        buttonPanel.add(recordsButton);
+        buttonPanel.add(exitButton);
+
+        panel.add(
+                buttonPanel,
+                BorderLayout.CENTER
+        );
+
+        registerButton.addActionListener(
+                e -> cardLayout.show(
+                        mainPanel,
+                        "REGISTER"
+                )
+        );
+
+        browseButton.addActionListener(
+                e -> {
+                    updatePetList();
+                    cardLayout.show(
+                            mainPanel,
+                            "PETS"
+                    );
+                }
+        );
+
+        givePetButton.addActionListener(
+                e -> cardLayout.show(
+                        mainPanel,
+                        "GIVEPET"
+                )
+        );
+
+        recordsButton.addActionListener(
+                e -> cardLayout.show(
+                        mainPanel,
+                        "RECORDS"
+                )
+        );
+
+        exitButton.addActionListener(
+                e -> System.exit(0)
+        );
+
+        return panel;
+    }
+
+
+    // =====================================================
+    // REGISTER USER
+    // =====================================================
+
+    private JPanel createRegisterPanel() {
+
+        JPanel panel =
+                new JPanel(
+                        new GridBagLayout()
+                );
+
+        GridBagConstraints gbc =
+                new GridBagConstraints();
+
+        gbc.insets =
+                new Insets(
+                        10,
+                        10,
+                        10,
+                        10
+                );
+
+        JTextField nameField =
+                new JTextField(15);
+
+        JTextField phoneField =
+                new JTextField(15);
+
+        JComboBox<String> typeBox =
+                new JComboBox<>(
+                        new String[]{
+                                "Adopter",
+                                "Rescuer"
+                        }
+                );
+
+        JButton registerButton =
+                new JButton("Register");
+
+        JButton backButton =
+                new JButton("Back");
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 2;
+
+        JLabel title =
+                new JLabel("USER REGISTRATION");
+
+        title.setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        22
+                )
+        );
+
+        panel.add(title, gbc);
+
+        gbc.gridwidth = 1;
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+
+        panel.add(
+                new JLabel("Name:"),
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        panel.add(
+                nameField,
+                gbc
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+
+        panel.add(
+                new JLabel("Phone Number:"),
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        panel.add(
+                phoneField,
+                gbc
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+
+        panel.add(
+                new JLabel("User Type:"),
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        panel.add(
+                typeBox,
+                gbc
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+
+        panel.add(
+                backButton,
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        panel.add(
+                registerButton,
+                gbc
+        );
+
+        registerButton.addActionListener(e -> {
+
+            if (nameField.getText().isEmpty()
+                    || phoneField.getText().isEmpty()) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Please complete all fields."
+                );
+
+                return;
+            }
+
+            currentUser =
+                    new User(
+                            nextUserID++,
+                            nameField.getText(),
+                            phoneField.getText(),
+                            typeBox.getSelectedItem().toString()
+                    );
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Registration Successful!"
+            );
+
+            nameField.setText("");
+            phoneField.setText("");
+
+            cardLayout.show(
+                    mainPanel,
+                    "HOME"
+            );
+        });
+
+        backButton.addActionListener(
+                e -> cardLayout.show(
+                        mainPanel,
+                        "HOME"
+                )
+        );
+
+        return panel;
+    }
+
+
+    // =====================================================
+    // PET LIST
+    // =====================================================
+
+    private JPanel petListPanel;
+    private JPanel petsContainer;
+
+    private JPanel createPetListPanel() {
+
+        petListPanel =
+                new JPanel(
+                        new BorderLayout()
+                );
+
+        JLabel title =
+                new JLabel(
+                        "AVAILABLE PETS",
+                        SwingConstants.CENTER
+                );
+
+        title.setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        24
+                )
+        );
+
+        petListPanel.add(
+                title,
+                BorderLayout.NORTH
+        );
+
+        petsContainer =
+                new JPanel();
+
+        petsContainer.setLayout(
+                new GridLayout(
+                        0,
+                        3,
+                        15,
+                        15
+                )
+        );
+
+        JScrollPane scrollPane =
+                new JScrollPane(
+                        petsContainer
+                );
+
+        petListPanel.add(
+                scrollPane,
+                BorderLayout.CENTER
+        );
+
+        JButton backButton =
+                new JButton("Back");
+
+        backButton.addActionListener(
+                e -> cardLayout.show(
+                        mainPanel,
+                        "HOME"
+                )
+        );
+
+        petListPanel.add(
+                backButton,
+                BorderLayout.SOUTH
+        );
+
+        return petListPanel;
+    }
+
+
+    private void updatePetList() {
+
+        petsContainer.removeAll();
+
+        ArrayList<Pet> pets =
+                manager.getAvailablePets();
+
+        for (Pet pet : pets) {
+
+            JPanel petCard =
+                    new JPanel();
+
+            petCard.setBorder(
+                    BorderFactory.createLineBorder(
+                            Color.GRAY
+                    )
+            );
+
+            petCard.setLayout(
+                    new BoxLayout(
+                            petCard,
+                            BoxLayout.Y_AXIS
+                    )
+            );
+
+            JLabel name =
+                    new JLabel(
+                            pet.getName()
+                    );
+
+            JLabel type =
+                    new JLabel(
+                            pet instanceof Dog
+                                    ? "Dog"
+                                    : "Cat"
+                    );
+
+            JLabel age =
+                    new JLabel(
+                            "Age: " +
+                                    pet.getAge()
+                    );
+
+            JButton viewButton =
+                    new JButton(
+                            "View Details"
+                    );
+
+            name.setAlignmentX(
+                    Component.CENTER_ALIGNMENT
+            );
+
+            type.setAlignmentX(
+                    Component.CENTER_ALIGNMENT
+            );
+
+            age.setAlignmentX(
+                    Component.CENTER_ALIGNMENT
+            );
+
+            viewButton.setAlignmentX(
+                    Component.CENTER_ALIGNMENT
+            );
+
+            petCard.add(
+                    Box.createVerticalStrut(30)
+            );
+
+            petCard.add(name);
+
+            petCard.add(
+                    Box.createVerticalStrut(10)
+            );
+
+            petCard.add(type);
+
+            petCard.add(
+                    Box.createVerticalStrut(10)
+            );
+
+            petCard.add(age);
+
+            petCard.add(
+                    Box.createVerticalStrut(20)
+            );
+
+            petCard.add(viewButton);
+
+            viewButton.addActionListener(
+                    e -> {
+
+                        selectedPet = pet;
+
+                        showPetDetails();
+
+                        cardLayout.show(
+                                mainPanel,
+                                "DETAILS"
+                        );
+                    }
+            );
+
+            petsContainer.add(petCard);
+        }
+
+        petsContainer.revalidate();
+        petsContainer.repaint();
+    }
+
+
+    // =====================================================
+    // PET DETAILS
+    // =====================================================
+
+    private JPanel createPetDetailsPanel() {
+
+        JPanel panel =
+                new JPanel(
+                        new BorderLayout()
+                );
+
+        JLabel title =
+                new JLabel(
+                        "PET DETAILS",
+                        SwingConstants.CENTER
+                );
+
+        title.setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        24
+                )
+        );
+
+        panel.add(
+                title,
+                BorderLayout.NORTH
+        );
+
+        petDetailsArea =
+                new JTextArea();
+
+        petDetailsArea.setEditable(false);
+
+        panel.add(
+                new JScrollPane(
+                        petDetailsArea
+                ),
+                BorderLayout.CENTER
+        );
+
+        JPanel buttonPanel =
+                new JPanel();
+
+        JButton adoptButton =
+                new JButton("Adopt This Pet");
+
+        JButton backButton =
+                new JButton("Back");
+
+        buttonPanel.add(adoptButton);
+        buttonPanel.add(backButton);
+
+        panel.add(
+                buttonPanel,
+                BorderLayout.SOUTH
+        );
+
+        adoptButton.addActionListener(
+                e -> {
+
+                    if (currentUser == null) {
+
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "Please register first."
+                        );
+
+                        cardLayout.show(
+                                mainPanel,
+                                "REGISTER"
+                        );
+
+                    } else {
+
+                        cardLayout.show(
+                                mainPanel,
+                                "PAYMENT"
+                        );
+                    }
+                }
+        );
+
+        backButton.addActionListener(
+                e -> {
+
+                    updatePetList();
+
+                    cardLayout.show(
+                            mainPanel,
+                            "PETS"
+                    );
+                }
+        );
+
+        return panel;
+    }
+
+
+    private void showPetDetails() {
+
+        String details =
+                selectedPet.toString() +
+                "\n\nCare Instructions:\n" +
+                selectedPet.getCareInstructions() +
+                "\n\nAdoption Fee: Rs. " +
+                selectedPet.calculateAdoptionFee();
+
+        petDetailsArea.setText(details);
+    }
+
+
+    // =====================================================
+    // PAYMENT
+    // =====================================================
+
+    private JPanel createPaymentPanel() {
+
+        JPanel panel =
+                new JPanel(
+                        new GridBagLayout()
+                );
+
+        GridBagConstraints gbc =
+                new GridBagConstraints();
+
+        gbc.insets =
+                new Insets(
+                        10,
+                        10,
+                        10,
+                        10
+                );
+
+        JLabel title =
+                new JLabel("PAYMENT");
+
+        title.setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        24
+                )
+        );
+
+        JComboBox<String> paymentMethod =
+                new JComboBox<>(
+                        new String[]{
+                                "Cash",
+                                "Card"
+                        }
+                );
+
+        JTextField paymentField =
+                new JTextField(15);
+
+        JButton payButton =
+                new JButton("Confirm Payment");
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 2;
+
+        panel.add(title, gbc);
+
+        gbc.gridwidth = 1;
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+
+        panel.add(
+                new JLabel(
+                        "Payment Method:"
+                ),
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        panel.add(
+                paymentMethod,
+                gbc
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+
+        panel.add(
+                new JLabel(
+                        "Enter Payment Reference:"
+                ),
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        panel.add(
+                paymentField,
+                gbc
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+
+        gbc.gridwidth = 2;
+
+        panel.add(
+                payButton,
+                gbc
+        );
+
+        payButton.addActionListener(
+                e -> {
+
+                    if (paymentField.getText().isEmpty()) {
+
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "Enter payment information."
+                        );
+
+                        return;
+                    }
+
+                    AdoptionRecord record =
+                            manager.processAdoption(
+                                    selectedPet.getPetID(),
+                                    currentUser
+                            );
+
+                    if (record != null) {
+
+                        JOptionPane.showMessageDialog(
+                                this,
+                                record.displayRecordDetails(),
+                                "Adoption Successful",
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+
+                        paymentField.setText("");
+
+                        cardLayout.show(
+                                mainPanel,
+                                "HOME"
+                        );
+
+                    } else {
+
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "Adoption could not be processed."
+                        );
+                    }
+                }
+        );
+
+        return panel;
+    }
+
+
+    // =====================================================
+    // GIVE PET FOR ADOPTION
+    // =====================================================
+
+    private JPanel createGivePetPanel() {
+
+        JPanel panel =
+                new JPanel(
+                        new GridBagLayout()
+                );
+
+        GridBagConstraints gbc =
+                new GridBagConstraints();
+
+        gbc.insets =
+                new Insets(
+                        8,
+                        8,
+                        8,
+                        8
+                );
+
+        JTextField nameField =
+                new JTextField(15);
+
+        JTextField ageField =
+                new JTextField(15);
+
+        JComboBox<String> genderBox =
+                new JComboBox<>(
+                        new String[]{
+                                "Male",
+                                "Female"
+                        }
+                );
+
+        JComboBox<String> typeBox =
+                new JComboBox<>(
+                        new String[]{
+                                "Dog",
+                                "Cat"
+                        }
+                );
+
+        JButton submitButton =
+                new JButton("Submit Pet");
+
+        JButton backButton =
+                new JButton("Back");
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        gbc.gridwidth = 2;
+
+        JLabel title =
+                new JLabel(
+                        "GIVE PET FOR ADOPTION"
+                );
+
+        title.setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        22
+                )
+        );
+
+        panel.add(title, gbc);
+
+        gbc.gridwidth = 1;
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+
+        panel.add(
+                new JLabel("Pet Name:"),
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        panel.add(
+                nameField,
+                gbc
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+
+        panel.add(
+                new JLabel("Age:"),
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        panel.add(
+                ageField,
+                gbc
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+
+        panel.add(
+                new JLabel("Gender:"),
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        panel.add(
+                genderBox,
+                gbc
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+
+        panel.add(
+                new JLabel("Pet Type:"),
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        panel.add(
+                typeBox,
+                gbc
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+
+        panel.add(
+                backButton,
+                gbc
+        );
+
+        gbc.gridx = 1;
+
+        panel.add(
+                submitButton,
+                gbc
+        );
+
+        submitButton.addActionListener(
+                e -> {
+
+                    try {
+
+                        int age =
+                                Integer.parseInt(
+                                        ageField.getText()
+                                );
+
+                        Pet newPet;
+
+                        if (typeBox
+                                .getSelectedItem()
+                                .equals("Dog")) {
+
+                            newPet =
+                                    new Dog(
+                                            nextPetID++,
+                                            nameField.getText(),
+                                            age,
+                                            genderBox
+                                                    .getSelectedItem()
+                                                    .toString(),
+                                            "Healthy",
+                                            "Mixed Breed",
+                                            false
+                                    );
+
+                        } else {
+
+                            newPet =
+                                    new Cat(
+                                            nextPetID++,
+                                            nameField.getText(),
+                                            age,
+                                            genderBox
+                                                    .getSelectedItem()
+                                                    .toString(),
+                                            "Healthy",
+                                            true,
+                                            true
+                                    );
+                        }
+
+                        manager.addPet(newPet);
+
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "Pet successfully added for adoption!"
+                        );
+
+                        nameField.setText("");
+                        ageField.setText("");
+
+                        cardLayout.show(
+                                mainPanel,
+                                "HOME"
+                        );
+
+                    } catch (NumberFormatException ex) {
+
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "Please enter a valid age."
+                        );
+                    }
+                }
+        );
+
+        backButton.addActionListener(
+                e -> cardLayout.show(
+                        mainPanel,
+                        "HOME"
+                )
+        );
+
+        return panel;
+    }
+
+
+    // =====================================================
+    // RECORDS
+    // =====================================================
+
+    private JPanel createRecordsPanel() {
+
+        JPanel panel =
+                new JPanel(
+                        new BorderLayout()
+                );
+
+        JLabel title =
+                new JLabel(
+                        "ADOPTION RECORDS",
+                        SwingConstants.CENTER
+                );
+
+        title.setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        24
+                )
+        );
+
+        panel.add(
+                title,
+                BorderLayout.NORTH
+        );
+
+        JTextArea recordsArea =
+                new JTextArea();
+
+        recordsArea.setEditable(false);
+
+        panel.add(
+                new JScrollPane(
+                        recordsArea
+                ),
+                BorderLayout.CENTER
+        );
+
+        JButton refreshButton =
+                new JButton(
+                        "Refresh Records"
+                );
+
+        JButton backButton =
+                new JButton("Back");
+
+        JPanel buttonPanel =
+                new JPanel();
+
+        buttonPanel.add(refreshButton);
+        buttonPanel.add(backButton);
+
+        panel.add(
+                buttonPanel,
+                BorderLayout.SOUTH
+        );
+
+        refreshButton.addActionListener(
+                e -> {
+
+                    recordsArea.setText(
+                            manager.displayAllRecords()
+                    );
+                }
+        );
+
+        backButton.addActionListener(
+                e -> cardLayout.show(
+                        mainPanel,
+                        "HOME"
+                )
+        );
+
+        return panel;
+    }
+}
