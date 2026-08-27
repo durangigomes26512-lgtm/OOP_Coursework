@@ -68,7 +68,7 @@ public class ShelterManager {
 					return pet; //returns the whole pet object
 				}
 			}
-			return null; //no matching id so returns null
+			return null; //when there is no matching id
 	}
 	
 	public void processAdoption(String recordID,User user,String petID) {
