@@ -19,11 +19,21 @@ public class AdoptionRecord {
     }
 
     // Getters
-    public String getRecordID() {return recordID;}
-    public Pet getPet() {return pet;}
-    public User getAdopter() {return adopter;}
-    public LocalDate getDate() {return date;}
-    public double getFeePaid() {return feePaid;}
+    public String getRecordID() {
+        return recordID;
+    }
+    public Pet getPet() {
+        return pet;
+    }
+    public User getAdopter() {
+        return adopter;
+    }
+    public LocalDate getDate() {
+        return date;
+    }
+    public double getFeePaid() {
+        return feePaid;
+    }
 
     // Display Record Details / Receipt
     public void displayRecordDetails() {
