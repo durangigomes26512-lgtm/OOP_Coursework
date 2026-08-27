@@ -45,16 +45,16 @@ public class Dog extends Pet {
     // Overriding adoption fee
     @Override
     public double calculateAdoptionFee() {
-		/*base fee to adopt = 1000, if pet is vaccinated / leash trained
-		 additional fee of 1500*/
-		double fee=1000;
+		/*base fee to adopt = 5000, if pet is vaccinated / leash trained
+		 additional fee of 3000*/
+		double fee=5000;
 		if (isVaccinated()) 
 		{
-			fee+=1500;
+			fee+=3000;
 		}
 		if (isLeashTrained())
 		{
-			fee+=1500;
+			fee+=4000;
 		}
 		return fee;
     }
