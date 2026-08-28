@@ -30,6 +30,18 @@ public class ShelterManager {
 		}
 		return false; //pet not deleted
 	}
+	public boolean updatePet(String petID, int age, String healthStatus, boolean isVaccinated) {
+    Pet pet = findPetByID(petID);
+
+    if (pet != null) {
+        pet.setAge(age);
+        pet.setHealthStatus(healthStatus);
+        pet.setIsVaccinated(isVaccinated);
+        return true;
+    }
+
+    return false;
+}
 	
 	public void addUser(User user){
 		userList.add(user);
