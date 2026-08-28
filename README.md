@@ -1,10 +1,10 @@
 # 🐾 Pet Adoption Management System
 
-A Java-based Pet Adoption Management System developed as an Object-Oriented Programming coursework project. The application allows users to register, log in, browse available pets, adopt pets, and manage pet adoption records through a Java Swing graphical user interface.
+A Java-based Pet Adoption Management System developed as an OOP (Object-Oriented Programming) coursework project. The system is designed to simplify the pet adoption process by allowing users to register, log in, browse available pets, view pet details, and adopt pets. It also supports rescuers in adding pets to the system and maintaining adoption records through a Java Swing graphical user interface.
 
 ## 📌 Features
 
-- User registration and login
+- User registration and login 
 - Adopter and Rescuer user roles
 - Browse available pets
 - View pet details
