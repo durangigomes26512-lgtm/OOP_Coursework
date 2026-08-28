@@ -66,7 +66,7 @@ public class PetAppGUI extends JFrame {
     public PetAppGUI(ShelterManager manager) {
         this.manager = manager;
 
-        setTitle("[PAWS] Pet Adoption Portal");
+        setTitle("🐾 Pet Adoption Portal");
         setSize(850, 650);
         setMinimumSize(new Dimension(750, 550));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -170,16 +170,16 @@ public class PetAppGUI extends JFrame {
         hero.setBackground(PRIMARY);
         hero.setBorder(new EmptyBorder(35, 20, 35, 20));
 
-        JLabel icon = new JLabel("[DOG]   [CAT]   [PAWS]");
+        JLabel icon = new JLabel("🐶   🐱   🐾");
         icon.setAlignmentX(Component.CENTER_ALIGNMENT);
-        icon.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        icon.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 48));
 
         JLabel title = new JLabel("Pet Adoption Portal");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setForeground(Color.WHITE);
         title.setFont(FONT_TITLE);
 
-        JLabel subtitle = new JLabel("Find a best friend. Change a life. <3");
+        JLabel subtitle = new JLabel("Find a best friend. Change a life!");
         subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         subtitle.setForeground(new Color(230, 255, 240));
         subtitle.setFont(new Font("Segoe UI", Font.PLAIN, 15));
@@ -194,8 +194,8 @@ public class PetAppGUI extends JFrame {
         actions.setBackground(BG_MAIN);
         actions.setBorder(new EmptyBorder(40, 150, 40, 150));
 
-        JButton adoptButton = createLargeActionButton("[PAWS] Adopt a Pet", "Find your perfect furry companion", ORANGE);
-        JButton rescueButton = createLargeActionButton("[HOME] Rehome a Pet", "Give a pet a second chance at happiness", PINK);
+        JButton adoptButton = createLargeActionButton("🐾 Adopt a Pet", "Find your perfect furry companion", ORANGE);
+        JButton rescueButton = createLargeActionButton("🏠 Rehome a Pet", "Give a pet a second chance at happiness", PINK);
 
         adoptButton.addActionListener(e -> navigateAuth("ADOPT"));
         rescueButton.addActionListener(e -> navigateAuth("RESCUE"));
@@ -223,7 +223,7 @@ public class PetAppGUI extends JFrame {
         JPanel loginCard = new JPanel(new BorderLayout(15, 20));
         loginCard.setBackground(WHITE);
 
-        JLabel loginTitle = new JLabel("Welcome Back! :)", SwingConstants.CENTER);
+        JLabel loginTitle = new JLabel("Welcome Back!", SwingConstants.CENTER);
         loginTitle.setFont(FONT_SUBTITLE);
         loginTitle.setForeground(PRIMARY_DARK);
 
@@ -232,7 +232,7 @@ public class PetAppGUI extends JFrame {
         addRow(loginForm, "User ID:", txtLoginID);
         addRow(loginForm, "Password:", txtLoginPass);
 
-        JButton loginButton = createBtn("Login [LOCK]", PRIMARY);
+        JButton loginButton = createBtn("Login", PRIMARY);
         loginButton.addActionListener(e -> handleLogin());
 
         loginCard.add(loginTitle, BorderLayout.NORTH);
@@ -243,7 +243,7 @@ public class PetAppGUI extends JFrame {
         JPanel registerCard = new JPanel(new BorderLayout(15, 20));
         registerCard.setBackground(WHITE);
 
-        JLabel registerTitle = new JLabel("Create Your Account [PAWS]", SwingConstants.CENTER);
+        JLabel registerTitle = new JLabel("Create Your Account 🐾", SwingConstants.CENTER);
         registerTitle.setFont(FONT_SUBTITLE);
         registerTitle.setForeground(PURPLE);
 
@@ -254,15 +254,15 @@ public class PetAppGUI extends JFrame {
         addRow(registerForm, "Password:", txtRegPass);
         addRow(registerForm, "User Role:", cmbRegType);
 
-        JButton registerButton = createBtn("Create Account [OK]", PURPLE);
+        JButton registerButton = createBtn("Create Account ✨", PURPLE);
         registerButton.addActionListener(e -> handleRegister());
 
         registerCard.add(registerTitle, BorderLayout.NORTH);
         registerCard.add(registerForm, BorderLayout.CENTER);
         registerCard.add(registerButton, BorderLayout.SOUTH);
 
-        tabs.addTab("[KEY] Login", wrapCard(loginCard));
-        tabs.addTab("[NOTE] Register", wrapCard(registerCard));
+        tabs.addTab("Login", wrapCard(loginCard));
+        tabs.addTab( "Register", wrapCard(registerCard));
 
         JPanel outer = new JPanel(new BorderLayout());
         outer.setBackground(BG_MAIN);
@@ -289,7 +289,7 @@ public class PetAppGUI extends JFrame {
         currentUser = new User(id, txtRegName.getText().trim(), txtRegPhone.getText().trim(), (String) cmbRegType.getSelectedItem(), new String(txtRegPass.getPassword()));
         manager.addUser(currentUser);
 
-        JOptionPane.showMessageDialog(this, ":D Registration Successful!\n\nYour User ID is: " + id, "Welcome!", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, " Registration Successful!\n\nYour User ID is: " + id, "Welcome!", JOptionPane.INFORMATION_MESSAGE);
         navigatePostAuth();
     }
 
@@ -316,7 +316,7 @@ public class PetAppGUI extends JFrame {
         main.setBackground(BG_MAIN);
         main.setBorder(new EmptyBorder(70, 100, 70, 100));
 
-        JLabel title = new JLabel("Who would you like to meet? [PAWS]", SwingConstants.CENTER);
+        JLabel title = new JLabel("Who would you like to meet? 🐾", SwingConstants.CENTER);
         title.setFont(new Font("Segoe UI", Font.BOLD, 26));
         title.setForeground(TEXT_DARK);
 
@@ -332,8 +332,8 @@ public class PetAppGUI extends JFrame {
         JPanel categories = new JPanel(new GridLayout(1, 2, 30, 0));
         categories.setBackground(BG_MAIN);
 
-        JButton dogButton = createLargeActionButton("[DOG] Dogs", "Loyal, playful and full of love", ORANGE);
-        JButton catButton = createLargeActionButton("[CAT] Cats", "Curious, independent and adorable", PURPLE);
+        JButton dogButton = createLargeActionButton(" Dogs", "Loyal, playful and full of love", ORANGE);
+        JButton catButton = createLargeActionButton(" Cats", "Curious, independent and adorable", PURPLE);
 
         dogButton.addActionListener(e -> loadPets("Dog"));
         catButton.addActionListener(e -> loadPets("Cat"));
@@ -372,7 +372,7 @@ public class PetAppGUI extends JFrame {
         center.setHorizontalAlignment(JLabel.CENTER);
         table.setDefaultRenderer(Object.class, center);
 
-        JButton selectButton = createBtn("[PAWS] Proceed to Adopt Selected Pet", PRIMARY);
+        JButton selectButton = createBtn("🐾 Proceed to Adopt Selected Pet", PRIMARY);
         selectButton.addActionListener(e -> {
             int row = table.getSelectedRow();
             if (row != -1) {
@@ -394,7 +394,7 @@ public class PetAppGUI extends JFrame {
         selectedPetToAdopt = null;
 
         boolean isDog = "Dog".equalsIgnoreCase(type);
-        lblPetListHeader.setText(isDog ? "Available Dogs [DOG]" : "Available Cats [CAT]");
+        lblPetListHeader.setText(isDog ? "Available Dogs 🐕" : "Available Cats 🐈");
 
         for (Pet p : manager.getAvailablePets()) {
             if ((isDog && p instanceof Dog) || (!isDog && p instanceof Cat)) {
@@ -409,7 +409,7 @@ public class PetAppGUI extends JFrame {
         JPanel card = new JPanel(new GridLayout(4, 1, 15, 15));
         card.setBackground(WHITE);
 
-        JLabel title = new JLabel("Complete Adoption Payment [CARD]", SwingConstants.CENTER);
+        JLabel title = new JLabel("Complete Adoption Payment 💳", SwingConstants.CENTER);
         title.setFont(FONT_SUBTITLE);
 
         JButton payButton = createBtn("Confirm & Pay", PRIMARY);
@@ -448,7 +448,7 @@ public class PetAppGUI extends JFrame {
         JPanel card = new JPanel(new BorderLayout(15, 15));
         card.setBackground(WHITE);
 
-        JLabel title = new JLabel("Rehome a Pet [HOME]", SwingConstants.CENTER);
+        JLabel title = new JLabel("Rehome a Pet", SwingConstants.CENTER);
         title.setFont(FONT_SUBTITLE);
 
         JPanel form = new JPanel(new GridLayout(7, 2, 10, 10));
@@ -519,7 +519,7 @@ public class PetAppGUI extends JFrame {
         JPanel card = new JPanel(new GridLayout(8, 1, 10, 10));
         card.setBackground(WHITE);
 
-        JLabel title = new JLabel("Adoption Receipt :D", SwingConstants.CENTER);
+        JLabel title = new JLabel("Adoption Receipt", SwingConstants.CENTER);
         title.setFont(FONT_SUBTITLE);
         card.add(title);
 
@@ -548,15 +548,13 @@ public class PetAppGUI extends JFrame {
             manager.addPet(new Dog("P003", "Max", 2, 'M', "Healthy", true, "Labrador", true));
             manager.addPet(new Dog("P004", "Bella", 5, 'F', "Healthy", true, "Beagle", true));
             manager.addPet(new Dog("P007", "Rocky", 3, 'M', "Healthy", true, "Poodle", false));
+
             manager.addPet(new Cat("P005", "Whiskers", 2, 'F', "Healthy", true, true, true));
-            manager.addPet(new Cat("P006", "Milo", 1, 'M', "Healthy", true, true, true));
             manager.addPet(new Cat("P008", "Luna", 2, 'F', "Healthy", true, true, true));
             manager.addPet(new Cat("P009", "Simba", 4, 'M', "Healthy", true, true, false));
             manager.addPet(new Cat("P010", "Cleo", 1, 'F', "Healthy", true, false, true));
-        
+            manager.addPet(new Cat("P006", "Milo", 1, 'M', "Healthy", true, true, true));
         }
-
-
 
         SwingUtilities.invokeLater(() -> new PetAppGUI(manager).setVisible(true));
     }
