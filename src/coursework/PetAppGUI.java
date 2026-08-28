@@ -161,11 +161,10 @@ public class PetAppGUI extends JFrame {
         return button;
     }
 
-    private JButton createLargeActionButton(String title, String description, Color color) {
-        String text = "<html><div style='text-align:center'>"
-                + "<b>" + title + "</b><br><br>"
-                + "<span style='font-size:11px'>" + description + "</span>"
-                + "</div></html>";
+  private JButton createLargeActionButton(String title, String description, Color color) { 
+    String text = "<html><div style='text-align:center'>" +  "<span style='font-size:22px'><b>" +
+     title + "</b></span><br><br>" + "<span style='font-size:11px'>" 
+    + description + "</span>" + "</div></html>";
 
         JButton button = createBtn(text, color);
         button.setBorder(new EmptyBorder(25, 25, 25, 25));
@@ -485,13 +484,13 @@ public class PetAppGUI extends JFrame {
         categories.setBackground(BG_MAIN);
 
         JButton dogs = createLargeActionButton(
-            "Dogs",
+            "🐕 Dogs",
             "Loyal, playful and full of love",
             ORANGE
         );
 
         JButton cats = createLargeActionButton(
-            "Cats",
+            "🐈 Cats",
             "Curious, independent and adorable",
             PURPLE
         );
