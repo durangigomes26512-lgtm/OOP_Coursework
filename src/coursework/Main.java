@@ -1,237 +1,90 @@
 package coursework;
 
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        // Create ShelterManager
-        ShelterManager manager = new ShelterManager();
-
-        // =========================
-        // CREATE USERS
-        // =========================
-
-        User adopter = new User(
-                "U001",
-                "Jane Doe",
-                "0123456789",
-                "Adopter",
-                "1234"
-        );
-
-        User rescuer = new User(
-                "U002",
-                "John Smith",
-                "0987654321",
-                "Rescuer",
-                "5678"
-        );
-
-        // Add users to manager
-        manager.addUser(adopter);
-        manager.addUser(rescuer);
-
-
-        // =========================
-        // CREATE DOGS
-        // =========================
-
-        Dog dog1 = new Dog(
-                "P001",
-                "Buddy",
-                3,
-                'M',
-                "Healthy",
-                true,
-                "Golden Retriever",
-                true
-        );
-
-        Dog dog2 = new Dog(
-                "P002",
-                "Bella",
-                2,
-                'F',
-                "Healthy",
-                false,
-                "Poodle",
-                false
-        );
-
-
-        // =========================
-        // CREATE CATS
-        // =========================
-
-        Cat cat1 = new Cat(
-                "P003",
-                "Whiskers",
-                2,
-                'F',
-                "Healthy",
-                true,
-                true,
-                true
-        );
-
-        Cat cat2 = new Cat(
-                "P004",
-                "Milo",
-                1,
-                'M',
-                "Healthy",
-                false,
-                false,
-                true
-        );
-
-
-        // =========================
-        // ADD PETS
-        // =========================
-
-        manager.addPet(dog1);
-        manager.addPet(dog2);
-        manager.addPet(cat1);
-        manager.addPet(cat2);
-
-
-        // =========================
-        // DISPLAY USER DETAILS
-        // =========================
-
-        System.out.println("===== USER DETAILS =====");
-
-        adopter.displayUserInfo();
-
-        System.out.println();
-
-        rescuer.displayUserInfo();
-
-
-        // =========================
-        // DISPLAY PET DETAILS
-        // =========================
-
-        System.out.println("\n===== PET DETAILS =====");
-
-        System.out.println("Pet ID: " + dog1.getPetID());
-        System.out.println("Name: " + dog1.getName());
-        System.out.println("Breed: " + dog1.getBreed());
-        System.out.println("Adoption Fee: Rs. " + dog1.calculateAdoptionFee());
-        System.out.println("Care: " + dog1.getCareInstructions());
-
-        System.out.println();
-
-        System.out.println("Pet ID: " + cat1.getPetID());
-        System.out.println("Name: " + cat1.getName());
-        System.out.println("Adoption Fee: Rs. " + cat1.calculateAdoptionFee());
-        System.out.println("Care: " + cat1.getCareInstructions());
-
-
-        // =========================
-        // DISPLAY AVAILABLE PETS
-        // =========================
-
-        System.out.println("\n===== AVAILABLE PETS =====");
-
-        for (Pet pet : manager.getAvailablePets()) {
-            System.out.println(
-                    pet.getPetID() + " - " +
-                    pet.getName() + " - " +
-                    pet.getClass().getSimpleName()
+        // 1. Set the System Look and Feel
+        // (Optional: makes the app look more modern)
+        try {
+            UIManager.setLookAndFeel(
+                UIManager.getSystemLookAndFeelClassName()
             );
+        } catch (Exception e) {
+            System.err.println("Could not set look and feel.");
         }
 
+        // 2. Initialize the backend manager
+        ShelterManager shelter = new ShelterManager();
 
-        // =========================
-        // AUTHENTICATE USER
-        // =========================
+        // 3. Pre-populate with sample Users
+        // (ID, Name, Phone, Role, Password)
 
-        System.out.println("\n===== LOGIN TEST =====");
-
-        User loggedUser = manager.authenticate("U001", "1234");
-
-        if (loggedUser != null) {
-            System.out.println("Login successful!");
-            System.out.println("Welcome, " + loggedUser.getName());
-        } else {
-            System.out.println("Invalid username or password.");
-        }
-
-
-        // =========================
-        // PROCESS ADOPTION
-        // =========================
-
-        System.out.println("\n===== PROCESS ADOPTION =====");
-
-        manager.processAdoption(
-                "REC001",
-                adopter,
-                "P001"
+        // One Adopter for testing login/adoption
+        shelter.addUser(
+            new User("U001", "Kamal Perera", "0771234567",
+                    "Adopter", "pass123")
         );
 
+        // One Rescuer for testing login/rescue
+        shelter.addUser(
+            new User("U002", "Nimali Silva", "0719876543",
+                    "Rescuer", "rescuer456")
+        );
 
-        // =========================
-        // DISPLAY AVAILABLE PETS
-        // AFTER ADOPTION
-        // =========================
+        // 4. Pre-populate with sample Pets
+        // Dogs: (ID, name, age, gender, health, vaccinated, breed, leashTrained)
 
-        System.out.println("\n===== AVAILABLE PETS AFTER ADOPTION =====");
+        shelter.addPet(
+            new Dog("D001", "Buddy", 3, 'M', "Healthy",
+                    true, "Golden Retriever", true)
+        );
 
-        for (Pet pet : manager.getAvailablePets()) {
-            System.out.println(
-                    pet.getPetID() + " - " +
-                    pet.getName()
-            );
-        }
+        shelter.addPet(
+            new Dog("D002", "Max", 1, 'M', "Excellent",
+                    true, "German Shepherd", false)
+        );
 
+        shelter.addPet(
+            new Dog("D003", "Daisy", 4, 'F', "Healthy",
+                    false, "Local Mix", true)
+        );
 
-        // =========================
-        // DISPLAY ALL RECORDS
-        // =========================
+        // Cats: (ID, name, age, gender, health, vaccinated,
+        //        indoorOnly, litterTrained)
 
-        System.out.println("\n===== ALL ADOPTION RECORDS =====");
+        shelter.addPet(
+            new Cat("C001", "Luna", 2, 'F', "Healthy",
+                    true, true, true)
+        );
 
-        manager.displayAllRecords();
+        shelter.addPet(
+            new Cat("C002", "Milo", 1, 'M', "Healthy",
+                    false, false, true)
+        );
 
+        shelter.addPet(
+            new Cat("C003", "Kitty", 5, 'F', "Active",
+                    true, true, false)
+        );
 
-        // =========================
-        // TEST FIND PET
-        // =========================
+        // 5. Launch the Graphical Interface
+        // We use SwingUtilities.invokeLater to ensure thread safety for the GUI
+        SwingUtilities.invokeLater(() -> {
+            PetAppGUI gui = new PetAppGUI(shelter);
+            gui.setVisible(true);
+        });
 
-        System.out.println("\n===== FIND PET =====");
-
-        Pet foundPet = manager.findPetByID("P003");
-
-        if (foundPet != null) {
-            System.out.println("Pet found: " + foundPet.getName());
-        } else {
-            System.out.println("Pet not found.");
-        }
-
-
-        // =========================
-        // TEST DELETE PET
-        // =========================
-
-        System.out.println("\n===== DELETE PET =====");
-
-        boolean deleted = manager.deletePet("P004");
-
-        if (deleted) {
-            System.out.println("Pet P004 deleted successfully.");
-        } else {
-            System.out.println("Pet not found.");
-        }
-
-
-        // =========================
-        // FINAL PET COUNT
-        // =========================
-
-        System.out.println("\nTotal pets in shelter: "
-                + manager.getPetList().size());
+        // 6. Console Output
+        // (To confirm the system started correctly)
+        System.out.println("==================================");
+        System.out.println("   Pet Adoption System is active  ");
+        System.out.println("   Pets Loaded: " + shelter.getPetList().size());
+        System.out.println("   Users Loaded: " + shelter.getUserList().size());
+        System.out.println("==================================");
     }
 }
+
