@@ -43,6 +43,9 @@ public class ShelterManager {
 		}
 		return null;
 	}
+	public boolean userExists(String userID) {
+    return findUserByID(userID) != null;
+    }
 	
 	public User authenticate(String userID,String password) {
 		User user = findUserByID(userID);
@@ -55,7 +58,7 @@ public class ShelterManager {
 	public ArrayList<Pet> getAvailablePets() { //return type -> creates and returns a new list of only unadopted pets 
 		ArrayList<Pet> availablePets=new ArrayList<>();
 		for (Pet pet: petList) { //iterates through the whole petList array
-			if (pet.isAdopted()==false) {
+			if (!pet.isAdopted()) {
 				availablePets.add(pet);
 			}
 		}

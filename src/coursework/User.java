@@ -25,6 +25,9 @@ public class User {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+	public void setPassword(String password) {
+    this.password = password;
+    }
 	public void setUserType(String userType) {
 		if (userType.equalsIgnoreCase("Adopter")||userType.equalsIgnoreCase("Rescuer")) {
 			this.userType = userType;
