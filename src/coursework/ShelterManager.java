@@ -43,6 +43,9 @@ public class ShelterManager {
 		}
 		return null;
 	}
+	public boolean userExists(String userID) {
+    return findUserByID(userID) != null;
+    }
 	
 	public User authenticate(String userID,String password) {
 		User user = findUserByID(userID);
