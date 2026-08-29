@@ -518,34 +518,47 @@ public class PetAppGUI extends JFrame {
         JTable table = new JTable(petTableModel);
         styleTable(table);
 
-        JButton select = createBtn("Proceed to Adopt Selected Pet", PRIMARY);
+       JButton selectButton = createBtn("Proceed to Adopt Selected Pet", PRIMARY);
 
-        select.addActionListener(e -> {
-            int row = table.getSelectedRow();
+selectButton.addActionListener(e -> {
+    int row = table.getSelectedRow();
 
-            if (row == -1) {
-                JOptionPane.showMessageDialog(
-                    this,
-                    "Please select a pet from the table.",
-                    "Selection Required",
-                    JOptionPane.WARNING_MESSAGE
-                );
-                return;
-            }
+    if (row != -1) {
+        selectedPetToAdopt = manager.findPetByID(
+            (String) petTableModel.getValueAt(row, 0)
+        );
+        cardLayout.show(mainPanel, "PAYMENT");
+    } else {
+        JOptionPane.showMessageDialog(
+            this,
+            "Please select a pet from the table.",
+            "Selection Required",
+            JOptionPane.WARNING_MESSAGE
+        );
+    }
+});
 
-            String petID = petTableModel.getValueAt(row, 0).toString();
-            selectedPetToAdopt = manager.findPetByID(petID);
+JButton backButton = createBtn(
+    "Back to Dog/Cat Selection",
+    PRIMARY_DARK
+);
 
-            cardLayout.show(mainPanel, "PAYMENT");
-        });
+backButton.addActionListener(
+    e -> cardLayout.show(mainPanel, "ADOPT_CAT")
+);
+
+     JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 0));
+    buttonPanel.setBackground(BG_MAIN);
+
+    buttonPanel.add(backButton);
+    buttonPanel.add(selectButton);
 
         panel.add(lblPetListHeader, BorderLayout.NORTH);
         panel.add(new JScrollPane(table), BorderLayout.CENTER);
-        panel.add(select, BorderLayout.SOUTH);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
 
         return panel;
     }
-
     private void styleTable(JTable table) {
         table.setRowHeight(40);
         table.setFont(FONT_PLAIN);
