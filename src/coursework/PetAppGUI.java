@@ -506,8 +506,6 @@ public class PetAppGUI extends JFrame {
         return main;
     }
 
-    // PET LIST
-
     private JPanel createPetListCard() {
         JPanel panel = new JPanel(new BorderLayout(15, 15));
         panel.setBackground(BG_MAIN);
