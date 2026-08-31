@@ -501,8 +501,17 @@ public class PetAppGUI extends JFrame {
         categories.add(dogs);
         categories.add(cats);
 
+        JButton backButton = createBtn("Back", PRIMARY_DARK);
+        backButton.addActionListener(e -> cardLayout.show(mainPanel, "HOME"));
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setBackground(BG_MAIN);
+        bottomPanel.add(backButton);
+
         main.add(heading, BorderLayout.NORTH);
         main.add(categories, BorderLayout.CENTER);
+        main.add(bottomPanel, BorderLayout.SOUTH);
+
         return main;
     }
 
